@@ -27,14 +27,26 @@ const Dashboard = () => {
                 onClose={() => setIsModalOpen(false)}
                 addTransaction={addTransaction} />
             {/* Affichage des transactions */}
-            <ul>
-                {transactions.map((transaction, index) => (
-                    <li key={index}>
-                        {transaction.amount} € - {transaction.category} (
-                        {transaction.type === "income" ? "Revenu" : "Dépense"})
-                    </li>
-                ))}
-            </ul>
+            <table className="table-auto w-full mt-5 text-left text-white">
+                <thead>
+                    <tr>
+                        <th className="px-4 py-2">Montant (€)</th>
+                        <th className="px-4 py-2">Catégorie</th>
+                        <th className="px-4 py-2">Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {transactions.map((transaction, index) => (
+                        <tr key={index} className="bg-gray-800 border-b">
+                            <td className="px-4 py-2">{transaction.amount}</td>
+                            <td className="px-4 py-2">{transaction.category}</td>
+                            <td className="px-4 py-2">
+                                {transaction.type === "income" ? "Revenu" : "Dépense"}
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </div>
     )
 }
