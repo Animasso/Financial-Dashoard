@@ -16,7 +16,7 @@ const Dashboard = () => {
         <div>
             <Header />
             <button
-                className="bg-white rounded ml-5 p-4 shadow-lg font-doto hover:bg-slate-300 text-base text-black"
+                className="bg-white rounded mt-10 ml-5 p-4 shadow-lg font-doto hover:bg-slate-300 text-base text-black"
                 onClick={() =>
                     setIsModalOpen(true)
                 }
