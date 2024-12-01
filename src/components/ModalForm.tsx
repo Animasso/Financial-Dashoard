@@ -20,6 +20,11 @@ const ModalForm = ({ isOpen, onClose, addTransaction }: Props) => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        if (!amount || category.trim() === "") {
+            alert("Tous les champs sont requis !");
+            return;
+        }
+
         addTransaction({ amount: Number(amount), category, type });
         setAmount("");
         setCategory("");
@@ -34,7 +39,7 @@ const ModalForm = ({ isOpen, onClose, addTransaction }: Props) => {
             contentLabel="Ajouter une transaction"
             style={{
                 overlay: {
-                    backgroundColor: "rgba(0, 0, 0, 0.5)", // Fond sombre
+                    backgroundColor: "rgba(0, 0, 0, 0.5)",
                 },
                 content: {
                     top: "50%",
