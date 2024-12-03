@@ -6,6 +6,9 @@ export default {
       fontFamily: {
         doto: ["Doto", "sans-serif"],
       },
+      textAlign: {
+        "text-align": "-webkit-center", // Ajoute cette classe personnalisée
+      },
     },
   },
   plugins: [],

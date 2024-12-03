@@ -2,6 +2,7 @@ import Header from "./Header";
 import { useState, useEffect } from "react";
 import { Transaction } from "./types/types";
 import ModalForm from "./ModalForm";
+import Charts from "./Charts";
 
 const Dashboard = () => {
     const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -38,9 +39,9 @@ const Dashboard = () => {
     const remainingBudget = fixedBudget - expense;
 
     return (
-        <div>
+        <div className="">
             <Header />
-            <div className="flex flex-col mt-12 justify-center text-center">
+            <div className="flex flex-col mt-12 justify-center text-center ">
                 <h1 className="text-white text-3xl font-doto">My Wallet</h1>
             </div>
 
@@ -98,26 +99,40 @@ const Dashboard = () => {
             />
 
             {/* Affichage des transactions */}
-            <table className="table-auto w-1/2 mt-5 text-left text-white">
-                <thead>
-                    <tr>
-                        <th className="px-4 py-2">Montant (€)</th>
-                        <th className="px-4 py-2">Catégorie</th>
-                        <th className="px-4 py-2">Type</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {transactions.map((transaction, index) => (
-                        <tr key={index} className="bg-gray-800 border-b">
-                            <td className="px-4 py-2">{transaction.amount}</td>
-                            <td className="px-4 py-2">{transaction.category}</td>
-                            <td className="px-4 py-2">
-                                {transaction.type === "income" ? "Revenu" : "Dépense"}
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+            <div className="flex flex-col lg:flex-row lg:justify-around items-center gap-8 mt-10">
+                {/* Graphique */}
+                <div className="w-full lg:w-1/2 justify-center">
+                    <Charts transactions={transactions} />
+                </div>
+
+                {/* Tableau */}
+                <div className="w-full lg:w-1/2 overflow-x-auto">
+                    <table className="table-auto w-full text-left text-white">
+                        <thead>
+                            <tr>
+                                <th className="px-4 py-2">Montant (€)</th>
+                                <th className="px-4 py-2">Catégorie</th>
+                                <th className="px-4 py-2">Type</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {transactions.map((transaction, index) => (
+                                <tr key={index} className="bg-gray-800 border-b">
+                                    <td className="px-4 py-2">{transaction.amount}</td>
+                                    <td className="px-4 py-2">{transaction.category}</td>
+                                    <td className="px-4 py-2">
+                                        {transaction.type === "income" ? "Revenu" : "Dépense"}
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+
+
         </div>
     );
 };

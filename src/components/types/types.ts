@@ -9,3 +9,15 @@ export interface Props {
   onClose: () => void;
   addTransaction: (transaction: Transaction) => void;
 }
+export interface PieChartOptions {
+  cx: number;
+  cy: number;
+  midAngle: number;
+  innerRadius: number;
+  outerRadius: number;
+  percent: number;
+  index: number;
+}
+export interface ChartsProps {
+  transactions: Transaction[]; // Corrigez ici pour accepter un tableau de transactions
+}

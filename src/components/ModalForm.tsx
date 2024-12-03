@@ -92,13 +92,16 @@ const ModalForm = ({ isOpen, onClose, addTransaction }: Props) => {
                     </div>
                     <div>
                         <label>Catégorie :</label>
-                        <input
-                            className=" mb-3"
-                            type="text"
-                            value={category}
+                        <select value={category}
                             onChange={(e) => setCategory(e.target.value)}
-                            required
-                        />
+                            required className=" mb-3">
+                            <option value="Loyer">Loyer</option>
+                            <option value="Nourriture">Nourriture</option>
+                            <option value="Loisir">Loisirs</option>
+                            <option value="Facture">Facture</option>
+                            <option value="Inprévue">Inprévue</option>
+                        </select>
+
                     </div>
                     <div>
                         <label>Type :</label>
