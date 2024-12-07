@@ -34,9 +34,9 @@ const ModalForm = ({ isOpen, onClose, addTransaction }: Props) => {
     return (
         <Modal
             isOpen={isOpen}
-            aria-label="Fermer la modale"
+            aria-label="Close the modal"
             onRequestClose={onClose}
-            contentLabel="Ajouter une transaction"
+            contentLabel="Add a transaction"
             style={{
                 overlay: {
                     backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -78,10 +78,10 @@ const ModalForm = ({ isOpen, onClose, addTransaction }: Props) => {
                 exit={{ opacity: 0, scale: 0.8 }}
                 transition={{ duration: 0.8 }}
             >
-                <h2 className=" mb-3 text-3xl">Ajouter une Transaction</h2>
+                <h2 className=" mb-3 text-3xl">Add a Transaction</h2>
                 <form onSubmit={handleSubmit}>
                     <div>
-                        <label>Montant :</label>
+                        <label>Amount :</label>
                         <input
                             className=" mb-3 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none focus:ring-blue-500 focus:border-blue-500"
                             type="number"
@@ -91,27 +91,28 @@ const ModalForm = ({ isOpen, onClose, addTransaction }: Props) => {
                         />
                     </div>
                     <div>
-                        <label>Catégorie :</label>
+                        <label>Category :</label>
                         <select value={category}
                             onChange={(e) => setCategory(e.target.value)}
                             required className=" mb-3">
-                            <option value="Loyer">Loyer</option>
-                            <option value="Nourriture">Nourriture</option>
-                            <option value="Loisir">Loisirs</option>
-                            <option value="Facture">Facture</option>
-                            <option value="Inprévue">Inprévue</option>
+                            <option value="Rent">Rent</option>
+                            <option value="Food">Food</option>
+                            <option value="Shopping">Shopping</option>
+                            <option value="Entertainment">Entertainment</option>
+                            <option value="Bill">Bill</option>
+                            <option value="Unexpected">Unexpected</option>
                         </select>
 
                     </div>
                     <div>
                         <label>Type :</label>
                         <select value={type} className=" mb-3" onChange={(e) => setType(e.target.value as "income" | "expense")}>
-                            <option value="income">Revenu</option>
-                            <option value="expense">Dépense</option>
+                            <option value="income">Income</option>
+                            <option value="expense">Expense</option>
                         </select>
                     </div>
                     <div className=" mt-7 flex justify-center text-center" >
-                        <button className=" hover:bg-slate-500 w-3/4 bg-gray-700 rounded-lg py-4 px-4 shadow-lg font-sans text-base text-white" type="submit">Ajouter</button>
+                        <button className=" hover:bg-slate-500 w-3/4 bg-gray-700 rounded-lg py-4 px-4 shadow-lg font-sans text-base text-white" type="submit">Add</button>
                     </div>
 
                 </form>

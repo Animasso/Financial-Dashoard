@@ -14,7 +14,7 @@ const Dashboard = () => {
     // Calculs dynamiques
     const [income, setIncome] = useState(0);
     const [expense, setExpense] = useState(0);
-    const [calculatedBudget, setCalculatedBudget] = useState(0);
+
 
     // Ajouter une transaction
     const addTransaction = (newTransaction: Transaction) => {
@@ -32,14 +32,36 @@ const Dashboard = () => {
 
         setIncome(totalIncome);
         setExpense(totalExpense);
-        setCalculatedBudget(totalIncome - totalExpense);
+
     }, [transactions]);
 
     // Calcul du solde restant
     const remainingBudget = fixedBudget - expense;
+    //categories color
+    const getCategoryClass = (category: string) => {
+        switch (category) {
+            case "Food":
+                return "bg-red-500 text-white";
+            case "Rent":
+                return "bg-blue-500 text-white";
+            case "Shopping":
+                return "bg-green-500 text-white";
+            case "Entertainment":
+                return "bg-purple-500 text-black";
+            case "Bill":
+                return "bg-yellow-500 text-black";
+            case "Unexpected":
+                return "bg-lime-400 text-white";
+            default:
+                return "bg-gray-500 text-white";
+        }
+    };
+
+
+
 
     return (
-        <div className="">
+        <div className=" w-full h-full">
             <Header />
             <div className="flex flex-col mt-12 justify-center text-center ">
                 <h1 className="text-white text-3xl font-doto">My Wallet</h1>
@@ -48,9 +70,6 @@ const Dashboard = () => {
             {/* Champ pour définir le budget fixe */}
             <div className="flex flex-col justify-around mt-7">
                 <div className="flex flex-col w-1/3 text-center self-center mt-7">
-                    <label className="mb-6 font-doto text-2xl text-white">
-                        Définir votre budget mensuel (€)
-                    </label>
                     <input
                         className="rounded-lg text-center w-1/3 self-center py-2 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none focus:ring-blue-500 focus:border-blue-500"
                         type="number"
@@ -61,26 +80,30 @@ const Dashboard = () => {
                                 setFixedBudget(Number(value));
                             }
                         }}
-                        placeholder="Entrer votre budget"
+                        placeholder="budget"
                     />
+                    <label className=" mt-5 mb-6 font-doto text-2xl text-white">
+                        Define your budget (€,$)
+                    </label>
+
                 </div>
             </div>
 
             {/* Affichage des budgets */}
-            <div className="bg-white text-black p-5 rounded shadow-lg mt-5">
-                <h2 className="text-lg font-bold text-center">Résumé</h2>
-                <p>Revenus : {income} €</p>
-                <p>Dépenses : {expense} €</p>
-                <p>Solde Calculé : {calculatedBudget} €</p>
-                <p>
-                    Budget Fixe : {fixedBudget} € -{" "}
+            <div className=" bg-slate-400 w-1/2 justify-self-center  text-black p-5 border text-center rounded  shadow-lg mt-5">
+                <h2 className="text-lg font-bold text-center">Sum up</h2>
+                <p className=" font-bold">Income : {income} €</p>
+                <p className=" font-bold">Expense : {expense} €</p>
+
+                <p className=" font-bold">
+                    FixedBudget : {fixedBudget} € -{" "}
                     {remainingBudget < 0 ? (
-                        <span className="text-red-500">Dépassement de budget !</span>
+                        <span className="text-red-500 font-bold text-xl">Over the budget !</span>
                     ) : (
-                        <span className="text-green-500">Dans le budget</span>
+                        <span className="text-green-500 font-bold text-xl">In the  budget</span>
                     )}
                 </p>
-                <p>Solde Restant : {remainingBudget} €</p>
+                <p className=" font-bold">Remaining Budget : {remainingBudget} €</p>
             </div>
 
             {/* Bouton pour ajouter une transaction */}
@@ -88,7 +111,7 @@ const Dashboard = () => {
                 className="bg-white rounded mt-10 ml-5 p-4 shadow-lg font-doto hover:bg-slate-300 text-base text-black"
                 onClick={() => setIsModalOpen(true)}
             >
-                Ajouter une transaction
+                Add a transaction
             </button>
 
             {/* Formulaire Modal */}
@@ -99,36 +122,42 @@ const Dashboard = () => {
             />
 
             {/* Affichage des transactions */}
-            <div className="flex flex-col lg:flex-row lg:justify-around items-center gap-8 mt-10">
-                {/* Graphique */}
-                <div className="w-full lg:w-1/2 justify-center">
-                    <Charts transactions={transactions} />
-                </div>
 
-                {/* Tableau */}
-                <div className="w-full lg:w-1/2 overflow-x-auto">
-                    <table className="table-auto w-full text-left text-white">
-                        <thead>
-                            <tr>
-                                <th className="px-4 py-2">Montant (€)</th>
-                                <th className="px-4 py-2">Catégorie</th>
-                                <th className="px-4 py-2">Type</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {transactions.map((transaction, index) => (
-                                <tr key={index} className="bg-gray-800 border-b">
-                                    <td className="px-4 py-2">{transaction.amount}</td>
-                                    <td className="px-4 py-2">{transaction.category}</td>
-                                    <td className="px-4 py-2">
-                                        {transaction.type === "income" ? "Revenu" : "Dépense"}
-                                    </td>
+            {/* Graphique */}
+            {transactions.length > 0 && (
+                <div className="flex flex-col lg:flex-row lg:justify-around items-center gap-8 mt-10">
+                    <div className="w-full lg:w-1/2 justify-center">
+                        <Charts transactions={transactions} />
+                    </div>
+
+                    <div className="w-full lg:w-1/2 overflow-x-auto">
+                        <table className="table-auto w-full text-left text-white">
+                            <thead>
+                                <tr>
+                                    <th className="px-4 py-2">Amount (€,$)</th>
+                                    <th className="px-4 py-2">Category</th>
+                                    <th className="px-4 py-2">Type</th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                {transactions.map((transaction, index) => (
+                                    <tr key={index} className="bg-gray-800 border-b">
+                                        <td className="px-4 py-2">{transaction.amount}</td>
+                                        <td className={`px-4 py-2 ${getCategoryClass(transaction.category)}`}>{transaction.category}</td>
+                                        <td className="px-4 py-2">
+                                            {transaction.type === "income" ? "Income" : "Expense"}
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
+            )}
+
+
+
+
 
 
 
