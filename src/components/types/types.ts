@@ -19,5 +19,5 @@ export interface PieChartOptions {
   index: number;
 }
 export interface ChartsProps {
-  transactions: Transaction[]; // Corrigez ici pour accepter un tableau de transactions
+  transactions: Transaction[];
 }

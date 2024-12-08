@@ -17,6 +17,7 @@ const Dashboard = () => {
     const [expense, setExpense] = useState(0);
 
 
+
     // Ajouter une transaction
     const addTransaction = (newTransaction: Transaction) => {
         setTransactions([...transactions, newTransaction]);

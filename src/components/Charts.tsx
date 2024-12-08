@@ -1,6 +1,7 @@
 
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
+import { BarChart, Bar, ResponsiveContainer } from 'recharts';
 import { ChartsProps } from "./types/types";
 
 // Enregistrement des éléments nécessaires
@@ -18,7 +19,7 @@ const Charts = ({ transactions }: ChartsProps) => {
 
     // Données du graphique
     const data = {
-        labels: ["Revenus", "Dépenses"],
+        labels: ["Income", "Expense"],
         datasets: [
             {
                 data: [income, expense],
@@ -28,7 +29,7 @@ const Charts = ({ transactions }: ChartsProps) => {
         ],
     };
 
-    // Configuration du graphique
+    // graphique
     const options = {
         responsive: true,
         plugins: {
