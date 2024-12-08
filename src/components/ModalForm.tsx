@@ -92,9 +92,15 @@ const ModalForm = ({ isOpen, onClose, addTransaction }: Props) => {
                     </div>
                     <div>
                         <label>Category :</label>
-                        <select value={category}
+                        <select
+                            value={category || ""}
                             onChange={(e) => setCategory(e.target.value)}
-                            required className=" mb-3">
+                            required
+                            className="ml-2 mb-3"
+                        >
+                            <option value="" disabled>
+                                Select a category
+                            </option>
                             <option value="Rent">Rent</option>
                             <option value="Food">Food</option>
                             <option value="Shopping">Shopping</option>
@@ -102,6 +108,7 @@ const ModalForm = ({ isOpen, onClose, addTransaction }: Props) => {
                             <option value="Bill">Bill</option>
                             <option value="Unexpected">Unexpected</option>
                         </select>
+
 
                     </div>
                     <div>

@@ -7,6 +7,7 @@ import Charts from "./Charts";
 const Dashboard = () => {
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [filter, setFilter] = useState<string>("all")
 
     // Budget fixe défini par l'utilisateur
     const [fixedBudget, setFixedBudget] = useState<number>(0);
@@ -22,7 +23,7 @@ const Dashboard = () => {
     };
 
     useEffect(() => {
-        // Recalculer les revenus, les dépenses et le solde calculé
+
         const totalIncome = transactions
             .filter((t) => t.type === "income")
             .reduce((sum, t) => sum + t.amount, 0);
@@ -36,7 +37,7 @@ const Dashboard = () => {
     }, [transactions]);
 
     // Calcul du solde restant
-    const remainingBudget = fixedBudget - expense;
+    const remainingBudget = fixedBudget - expense + income;
     //categories color
     const getCategoryClass = (category: string) => {
         switch (category) {
@@ -57,6 +58,25 @@ const Dashboard = () => {
         }
     };
 
+    const setAmountColor = (amount: number) => {
+        if (amount <= 50) {
+            return "bg-green-100"
+        } else if (amount <= 100) {
+            return "bg-green-200";
+        } else if (amount <= 200) {
+            return "bg-green-300";
+        } else if (amount <= 300) {
+            return "bg-green-400";
+        } else if (amount <= 400) {
+            return "bg-green-500";
+        } else {
+            return "bg-green-600";
+        }
+
+    }; const filterTransactions = (): Transaction[] => {
+        if (filter === "all") return transactions;
+        return transactions.filter((transaction) => transaction.type === filter);
+    };
 
 
 
@@ -69,6 +89,7 @@ const Dashboard = () => {
 
             {/* Champ pour définir le budget fixe */}
             <div className="flex flex-col justify-around mt-7">
+
                 <div className="flex flex-col w-1/3 text-center self-center mt-7">
                     <input
                         className="rounded-lg text-center w-1/3 self-center py-2 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none focus:ring-blue-500 focus:border-blue-500"
@@ -121,7 +142,7 @@ const Dashboard = () => {
                 addTransaction={addTransaction}
             />
 
-            {/* Affichage des transactions */}
+
 
             {/* Graphique */}
             {transactions.length > 0 && (
@@ -129,8 +150,30 @@ const Dashboard = () => {
                     <div className="w-full lg:w-1/2 justify-center">
                         <Charts transactions={transactions} />
                     </div>
-
+                    {/* Affichage des transactions */}
                     <div className="w-full lg:w-1/2 overflow-x-auto">
+                        {/* Bouton pour filtrer */}
+                        <div className="flex justify-center gap-4 mb-5">
+                            <button
+                                className={`px-4 py-2 rounded ${filter === "all" ? "bg-blue-500 text-white" : "bg-gray-300"}`}
+                                onClick={() => setFilter("all")}
+                            >
+                                All
+                            </button>
+                            <button
+                                className={`px-4 py-2 rounded ${filter === "income" ? "bg-orange-400 text-white" : "bg-gray-300"}`}
+                                onClick={() => setFilter("income")}
+                            >
+                                Income
+                            </button>
+                            <button
+                                className={`px-4 py-2 rounded ${filter === "expense" ? "bg-orange-800 text-white" : "bg-gray-300"}`}
+                                onClick={() => setFilter("expense")}
+                            >
+                                Expense
+                            </button>
+                        </div>
+                        {/* Affichage des transactions filtrées */}
                         <table className="table-auto w-full text-left text-white">
                             <thead>
                                 <tr>
@@ -140,13 +183,14 @@ const Dashboard = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {transactions.map((transaction, index) => (
+                                {filterTransactions().map((transaction, index) => (
                                     <tr key={index} className="bg-gray-800 border-b">
-                                        <td className="px-4 py-2">{transaction.amount}</td>
+                                        <td className={`px-4 py-2 text-black ${setAmountColor(transaction.amount)}`}>{transaction.amount}</td>
                                         <td className={`px-4 py-2 ${getCategoryClass(transaction.category)}`}>{transaction.category}</td>
-                                        <td className="px-4 py-2">
+                                        <td className={`px-4 py-2 ${transaction.type === "income" ? "bg-orange-400" : "bg-orange-800"}`}>
                                             {transaction.type === "income" ? "Income" : "Expense"}
                                         </td>
+
                                     </tr>
                                 ))}
                             </tbody>
@@ -154,14 +198,6 @@ const Dashboard = () => {
                     </div>
                 </div>
             )}
-
-
-
-
-
-
-
-
         </div>
     );
 };
