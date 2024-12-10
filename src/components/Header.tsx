@@ -2,8 +2,8 @@ import { Typewriter } from "react-simple-typewriter";
 
 const Header = () => {
     return (
-        <div className=" flex justify-center text-center w-screen mt-7 ">
-            <h1 className="font-doto text-4xl text-white">
+        <div className=" w-1/2  border py-4 justify-self-center pb-6 bg-transparent shadow-2xl flex justify-center text-center self-center mt-7 ">
+            <h1 className=" mt-4 font-doto text-4xl text-white">
                 <Typewriter words={["My Financial Dashboard"]} typeSpeed={100} />
             </h1>
         </div>

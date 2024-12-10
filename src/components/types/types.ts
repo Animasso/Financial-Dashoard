@@ -19,5 +19,12 @@ export interface PieChartOptions {
   index: number;
 }
 export interface ChartsProps {
-  transactions: Transaction[];
+  income: number;
+  expense: number;
+}
+export interface ChartBarProps {
+  income?: number;
+  expense?: number;
+  fixedBudget?: number;
+  budgetRemaining?: number;
 }
