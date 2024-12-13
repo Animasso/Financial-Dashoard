@@ -1,3 +1,4 @@
+import axios from "axios";
 import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -9,25 +10,38 @@ const Login = () => {
     const [lastname, setLastname] = useState<string>("");
     const navigate = useNavigate()
 
-    function handleSubmitLogin(event: FormEvent<HTMLFormElement>): void {
+    async function handleSubmitLogin(event: FormEvent<HTMLFormElement>): Promise<void> {
         event.preventDefault();
-        const loginData = { email, password };
-        console.log("Logging in with:", loginData);
-        if (email && password) {
-            navigate("/dashboard");
-        } else {
-            alert("you have to  fill all the fields");
+        try {
+            const loginData = { email, password };
+            const response = await axios.post("http://localhost:8080/api/users/login", loginData);
+            if (response.status === 200) {
+                console.log("Login successful");
+                navigate("/dashboard");
+            }
+        } catch (error) {
+            console.error("Login failed:", error);
+            alert("Invalid email or password");
         }
     }
 
-    function handleSubmitRegister(event: FormEvent<HTMLFormElement>): void {
+    async function handleSubmitRegister(event: FormEvent<HTMLFormElement>): Promise<void> {
         event.preventDefault();
         const registerData = { name, lastname, email, password };
         console.log("Registering with:", registerData);
         if (name && lastname && email && password) {
-            navigate("/dashboard");
+            await axios
+                .post("http://localhost:8080/api/users/register", registerData)
+                .then((response) => {
+                    console.log("User registered successfully", response.data);
+                    navigate("/dashboard");
+                })
+                .catch((error) => {
+                    console.error("Error during registration:", error);
+                    alert("There was an error during registration. Please try again.");
+                });
         } else {
-            alert("you have to  fill all the fields");
+            alert("You have to fill all the fields");
         }
     }
 
